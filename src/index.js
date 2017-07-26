@@ -23,8 +23,9 @@ const injectScript = locale => {
 };
 
 class GoogleRecaptcha extends React.Component {
+
   componentDidMount() {
-    const { sitekey, locale, badge, onResolved } = this.props;
+    const { sitekey, locale, badge, onResolved, size } = this.props;
 
     this.callbackName = 'GoogleRecaptchaResolved-' + uuid();
     window[ this.callbackName ] = onResolved;
@@ -33,7 +34,7 @@ class GoogleRecaptcha extends React.Component {
       if ( this.container ) {
         const recaptchaId = window.grecaptcha.render( this.container, {
           sitekey,
-          size: 'invisible',
+          size,
           badge,
           callback: this.callbackName
         });
@@ -58,7 +59,7 @@ class GoogleRecaptcha extends React.Component {
   }
   render() {
     return (
-      <div ref={ ref => this.container = ref } style={ { display: 'none' } } />
+      <div ref={ ref => this.container = ref } />
     );
   }
 }
@@ -70,7 +71,8 @@ GoogleRecaptcha.propTypes = {
 };
 
 GoogleRecaptcha.defaultProps = {
-  locale: 'en'
+  locale: 'en',
+  size: 'invisible',
 };
 
 export default GoogleRecaptcha;
